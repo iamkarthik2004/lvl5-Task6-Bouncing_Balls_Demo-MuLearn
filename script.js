@@ -1,4 +1,5 @@
 var canvas = document.querySelector('canvas');
+var restartBtn = document.getElementById('restartBtn');
 
 // Set canvas width and height 
 canvas.width = window.innerWidth;
@@ -76,22 +77,29 @@ function Circle(x, y, radius, dx, dy, color, isStatic = false) {
 var circleArray = [];
 var disappearedCirclesCount = 0;
 
-// Add colored bouncing circles
-for (let i = 0; i < 25; i++) {
-    let radius = 15;
-    var x = Math.random() * (innerWidth - radius * 2) + radius;
-    var y = Math.random() * (innerHeight - radius * 2) + radius;
-    var dx = (Math.random() - 0.5) * 10;
-    var dy = (Math.random() - 0.5) * 10;
-    circleArray.push(new Circle(x, y, radius, dx, dy));
-}
+function initGame() {
+    circleArray = [];
+    disappearedCirclesCount = 0;
+    
+    // Add bouncing circles
+    for (let i = 0; i < 25; i++) {
+        let radius = 15;
+        var x = Math.random() * (innerWidth - radius * 2) + radius;
+        var y = Math.random() * (innerHeight - radius * 2) + radius;
+        var dx = (Math.random() - 0.5) * 10;
+        var dy = (Math.random() - 0.5) * 10;
+        circleArray.push(new Circle(x, y, radius, dx, dy));
+    }
 
-// Add the static white circle
-let whiteRadius = 15;
-var whiteX = Math.random() * (innerWidth - whiteRadius * 2) + whiteRadius;
-var whiteY = Math.random() * (innerHeight - whiteRadius * 2) + whiteRadius;
-var whiteCircle = new Circle(whiteX, whiteY, whiteRadius, 0, 0, 'white', true);
-circleArray.push(whiteCircle);
+    // Add the static white circle
+    let whiteRadius = 15;
+    var whiteX = Math.random() * (innerWidth - whiteRadius * 2) + whiteRadius;
+    var whiteY = Math.random() * (innerHeight - whiteRadius * 2) + whiteRadius;
+    whiteCircle = new Circle(whiteX, whiteY, whiteRadius, 0, 0, 'white', true);
+    circleArray.push(whiteCircle);
+
+    restartBtn.style.display = 'none'; // Hide restart button
+}
 
 function animate() {
     requestAnimationFrame(animate);
@@ -110,10 +118,22 @@ function animate() {
         circle.update();
         return true;
     });
+
+    // If all balls are gone, show restart button
+    if (disappearedCirclesCount >= 25) {
+        restartBtn.style.display = 'block';
+    }
 }
 
+// Start the game
+initGame();
 animate();
 
+// Restart game when button is clicked
+restartBtn.addEventListener('click', function () {
+    initGame();
+});
+  
 // Mouse move event listener
 canvas.addEventListener('mousemove', function (event) {
     var rect = canvas.getBoundingClientRect();
