@@ -1,0 +1,27 @@
+html, body {
+    margin: 0;
+  }
+  
+  html {
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    height: 100%;
+  }
+
+  body {
+    overflow: hidden;
+    height: inherit;
+  }
+  canvas {
+    display: block;
+    background: url('neonbg.png') no-repeat center center fixed;
+    background-size: cover;
+}
+  h1 {
+    font-size: 2rem;
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding-right: 20px;
+    color: white;
+    text-shadow: 2px 2px 2px white;
+  }
